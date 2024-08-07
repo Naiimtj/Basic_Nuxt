@@ -1,9 +1,18 @@
 <template>
-    <div>INDEX</div>
-</template >
+  <ul>
+    <li v-for="(item, index) in note.notes" :key="index">{{ item.title }}</li>
+  </ul>
+</template>
 
 <script lang="ts" setup>
-</script>
+import NoteService from "~/services/NoteService";
+import { onMounted, ref } from "vue";
+import type INote from "../interfaces/INote";
 
-<style scoped>
-</style>
+const note = ref<{ notes: INote[] }>({ notes: [] });
+const noteService = new NoteService();
+
+onMounted(async () => {
+  note.value = await noteService.GetNote();
+});
+</script>
